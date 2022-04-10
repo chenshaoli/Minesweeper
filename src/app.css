@@ -12,7 +12,6 @@ body{
 .outer{
     width:600px;
     height: 600px;
-    /* border:1px solid red; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,17 +31,35 @@ body{
     width:100%;
     height: 100%;
     display: flex;
-    /* border:1px solid green; */
 }
 .inner_row{
+    position: relative;
     width:100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border:1px solid white;
     background-color: black;
+    
+}
+.inner_row:hover span{
+    display: inline-block;
 }
 .clicked{
     border:1px solid black;
     background-color: white;
+}
+.inner_row  span {
+    position: absolute;
+    display: none;
+    content: attr(aria-label);
+    bottom: 44px;
+    left: 0;
+    color: red;
+    font-size: 12px;
+    white-space: nowrap;
+    background-color: aquamarine;
+    padding: 10px 10px;
+    border-radius: 4px;
+    z-index: 100;
 }

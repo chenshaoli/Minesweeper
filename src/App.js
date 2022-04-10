@@ -1,19 +1,17 @@
 import React ,{useState,useEffect} from 'react';
-import { mineBgArray } from './data'
+import { mineBgArray ,GOOD_LUCK_TIMES,BG} from './data'
 import './app.css'
-console.log('mineBgArray: ', mineBgArray);
-const GOOD_LUCK_TIMES = [9,21,40];
 export const App =()=>{
-   const [mineArray, setMineArray] = useState(mineBgArray);
+   const [mineArray, setMineArray] = useState(()=>mineBgArray());
    const [times, setTimes] = useState(0);
    const [showError,setShowError] = useState(false);
    const onClick=(k,t)=>{
       const item = mineArray[k][t];
       setTimes(times+1)
-      if(item.value === '*'){
+      if(item.value === BG){
          setShowError(true);
          const newArray = mineArray.map(i=>i.map(t=>{
-            t.value='*';
+            t.value=BG;
             t.clicked=true;
             return t
          }));
@@ -21,7 +19,7 @@ export const App =()=>{
          return
       }
       let newLine ={};
-      if(item.clicked && item.value != '*'){
+      if(item.clicked && item.value != BG){
          newLine = {...item,clicked:false};
       } else {  
          newLine = {...item,clicked:true};
@@ -35,10 +33,7 @@ export const App =()=>{
      }
    }, [times]);
    const reset = ()=>{
-      setMineArray(rows=>rows.map(row=>row.map(x=>({
-         ...x,
-         clicked:false
-      }))));
+      setMineArray(mineBgArray());
       setShowError(false);
       setTimes(0);
    }
@@ -53,7 +48,10 @@ export const App =()=>{
          return <div className='outer_line' key={k}>
                { array.map((i,t)=>(<div key={t} 
                className={i.clicked ? 'inner_row clicked':'inner_row'} 
-               onClick={(i)=>onClick(k,t)}>{i.value}</div>)
+               onClick={(i)=>onClick(k,t)}>
+              { !i.clicked && <span aria-label={i.title}>{i.title}</span>}
+               {i.value}
+               </div>)
                )}
             </div>
       })}
